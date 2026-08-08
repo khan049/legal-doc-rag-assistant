@@ -167,7 +167,15 @@ QUESTION:
         return response.choices[0].message.content.strip()
 
     except Exception as e:
-        return f"ERROR: OpenRouter request failed: {e}"
+            error_message = str(e)
+
+            if "429" in error_message:
+                return (
+                    "ERROR: OpenRouter free model is temporarily busy. "
+                    "Please try the question again."
+                )
+
+            return f"ERROR: OpenRouter request failed: {e}"
 
 # --------------------------------------------------
 # Parse LLM response
